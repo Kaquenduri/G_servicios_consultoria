@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Actividad_Caso_2.Data;
 using Actividad_Caso_2.Repositories.Interfaces;
@@ -12,23 +13,30 @@ var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
 
 builder.Services.AddOpenApi();
-builder.Services.AddControllersWithViews();
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException(
+        "No se encontro la cadena de conexion 'DefaultConnection'.");
+
 var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
 var npgsqlBuilder = new NpgsqlConnectionStringBuilder(connectionString);
-if (!string.IsNullOrEmpty(dbPassword))
+if (!string.IsNullOrWhiteSpace(dbPassword))
 {
     npgsqlBuilder.Password = dbPassword;
 }
 
 builder.Services.AddDbContext<GestionProyectosContext>(options =>
-    options.UseNpgsql(npgsqlBuilder.ConnectionString)
-);
+    options.UseNpgsql(npgsqlBuilder.ConnectionString));
 
 // Register Repositories
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();

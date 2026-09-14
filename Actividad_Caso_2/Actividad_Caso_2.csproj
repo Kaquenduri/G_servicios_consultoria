@@ -20,8 +20,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories\" />
-      <Folder Include="Services\" />
+      <Folder Include="DTOs\Cliente\" />
+      <Folder Include="DTOs\Empleado\" />
+      <Folder Include="DTOs\GastoProyecto\" />
+      <Folder Include="DTOs\Hito\" />
+      <Folder Include="DTOs\InformeProgreso\" />
+      <Folder Include="DTOs\InteraccionCliente\" />
+      <Folder Include="DTOs\Proyecto\" />
+      <Folder Include="DTOs\Tarea\" />
     </ItemGroup>
 
 </Project>

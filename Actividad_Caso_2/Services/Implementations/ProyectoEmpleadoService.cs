@@ -1,6 +1,6 @@
-﻿using Actividad_Caso_2.Models;
+using Actividad_Caso_2.Models;
 using Actividad_Caso_2.Services.Interfaces;
-using Actividad_Caso_2.UnitOfWork;
+using Actividad_Caso_2.Repositories.Interfaces;
 
 namespace Actividad_Caso_2.Services.Implementations;
 

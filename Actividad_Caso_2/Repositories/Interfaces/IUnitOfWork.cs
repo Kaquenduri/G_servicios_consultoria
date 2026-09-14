@@ -1,6 +1,6 @@
 using Actividad_Caso_2.Repositories.Interfaces;
 
-namespace Actividad_Caso_2.UnitOfWork;
+namespace Actividad_Caso_2.Repositories.Interfaces;
 
 public interface IUnitOfWork : IDisposable
 {

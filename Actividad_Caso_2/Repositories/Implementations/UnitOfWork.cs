@@ -1,6 +1,7 @@
 using Actividad_Caso_2.Data;
 using Actividad_Caso_2.Repositories.Interfaces;
-using Actividad_Caso_2.UnitOfWork;
+
+namespace Actividad_Caso_2.Repositories.Implementations;
 
 public class UnitOfWork : IUnitOfWork
 {

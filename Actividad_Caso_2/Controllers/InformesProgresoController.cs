@@ -31,52 +31,23 @@ public class InformesProgresoController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<InformeProgreso>> Create(InformeProgreso informe)
     {
-        try
-        {
-            var creado = await _service.CreateAsync(informe);
-            return CreatedAtAction(nameof(GetById), new { id = creado.InformeProgresoId }, creado);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        var creado = await _service.CreateAsync(informe);
+        return CreatedAtAction(nameof(GetById), new { id = creado.InformeProgresoId }, creado);
     }
 
     [HttpPut("{id:long}")]
     public async Task<IActionResult> Update(long id, InformeProgreso informe)
     {
-        try
-        {
-            return await _service.UpdateAsync(id, informe)
-                ? NoContent()
-                : NotFound(new { mensaje = "Informe de progreso no encontrado." });
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.UpdateAsync(id, informe)
+            ? NoContent()
+            : NotFound(new { mensaje = "Informe de progreso no encontrado." });
     }
 
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
-        try
-        {
-            return await _service.DeleteAsync(id)
-                ? NoContent()
-                : NotFound(new { mensaje = "Informe de progreso no encontrado." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.DeleteAsync(id)
+            ? NoContent()
+            : NotFound(new { mensaje = "Informe de progreso no encontrado." });
     }
 }

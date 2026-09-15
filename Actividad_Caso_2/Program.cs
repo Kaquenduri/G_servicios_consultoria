@@ -6,6 +6,7 @@ using Actividad_Caso_2.Repositories.Implementations;
 using Actividad_Caso_2.Services.Interfaces;
 using Actividad_Caso_2.Services.Implementations;
 using Npgsql;
+using Actividad_Caso_2.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,21 +23,10 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException(
-        "No se encontro la cadena de conexion 'DefaultConnection'.");
-
-var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-
-var npgsqlBuilder = new NpgsqlConnectionStringBuilder(connectionString);
-if (!string.IsNullOrWhiteSpace(dbPassword))
-{
-    npgsqlBuilder.Password = dbPassword;
-}
+builder.Services.AddExceptionHandler<ServiceExceptionHandler>();
 
 builder.Services.AddDbContext<GestionProyectosContext>(options =>
-    options.UseNpgsql(npgsqlBuilder.ConnectionString));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register Repositories
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
@@ -67,7 +57,6 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -76,6 +65,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();

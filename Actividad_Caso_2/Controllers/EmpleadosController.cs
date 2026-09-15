@@ -31,52 +31,23 @@ public class EmpleadosController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Empleado>> Create(Empleado empleado)
     {
-        try
-        {
-            var creado = await _service.CreateAsync(empleado);
-            return CreatedAtAction(nameof(GetById), new { id = creado.EmpleadoId }, creado);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        var creado = await _service.CreateAsync(empleado);
+        return CreatedAtAction(nameof(GetById), new { id = creado.EmpleadoId }, creado);
     }
 
     [HttpPut("{id:long}")]
     public async Task<IActionResult> Update(long id, Empleado empleado)
     {
-        try
-        {
-            return await _service.UpdateAsync(id, empleado)
-                ? NoContent()
-                : NotFound(new { mensaje = "Empleado no encontrado." });
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.UpdateAsync(id, empleado)
+            ? NoContent()
+            : NotFound(new { mensaje = "Empleado no encontrado." });
     }
 
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
-        try
-        {
-            return await _service.DeleteAsync(id)
-                ? NoContent()
-                : NotFound(new { mensaje = "Empleado no encontrado." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.DeleteAsync(id)
+            ? NoContent()
+            : NotFound(new { mensaje = "Empleado no encontrado." });
     }
 }

@@ -22,36 +22,18 @@ public class ProyectoEmpleadosController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ProyectoEmpleado>> Asignar(ProyectoEmpleado asignacion)
     {
-        try
-        {
-            var creada = await _service.AsignarAsync(asignacion);
-            return CreatedAtAction(
-                nameof(GetByProyecto),
-                new { proyectoId = creada.ProyectoId },
-                creada);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        var creada = await _service.AsignarAsync(asignacion);
+        return CreatedAtAction(
+            nameof(GetByProyecto),
+            new { proyectoId = creada.ProyectoId },
+            creada);
     }
 
     [HttpDelete("proyecto/{proyectoId:long}/empleado/{empleadoId:long}")]
     public async Task<IActionResult> Desasignar(long proyectoId, long empleadoId)
     {
-        try
-        {
-            return await _service.DesasignarAsync(proyectoId, empleadoId)
-                ? NoContent()
-                : NotFound(new { mensaje = "Asignación no encontrada." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.DesasignarAsync(proyectoId, empleadoId)
+            ? NoContent()
+            : NotFound(new { mensaje = "Asignación no encontrada." });
     }
 }

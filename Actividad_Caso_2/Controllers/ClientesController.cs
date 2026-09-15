@@ -31,52 +31,23 @@ public class ClientesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Cliente>> Create(Cliente cliente)
     {
-        try
-        {
-            var creado = await _service.CreateAsync(cliente);
-            return CreatedAtAction(nameof(GetById), new { id = creado.ClienteId }, creado);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        var creado = await _service.CreateAsync(cliente);
+        return CreatedAtAction(nameof(GetById), new { id = creado.ClienteId }, creado);
     }
 
     [HttpPut("{id:long}")]
     public async Task<IActionResult> Update(long id, Cliente cliente)
     {
-        try
-        {
-            return await _service.UpdateAsync(id, cliente)
-                ? NoContent()
-                : NotFound(new { mensaje = "Cliente no encontrado." });
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.UpdateAsync(id, cliente)
+            ? NoContent()
+            : NotFound(new { mensaje = "Cliente no encontrado." });
     }
 
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
-        try
-        {
-            return await _service.DeleteAsync(id)
-                ? NoContent()
-                : NotFound(new { mensaje = "Cliente no encontrado." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.DeleteAsync(id)
+            ? NoContent()
+            : NotFound(new { mensaje = "Cliente no encontrado." });
     }
 }

@@ -22,33 +22,15 @@ public class InteraccionesClienteController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<InteraccionCliente>> Create(InteraccionCliente interaccion)
     {
-        try
-        {
-            var creada = await _service.CreateAsync(interaccion);
-            return StatusCode(StatusCodes.Status201Created, creada);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        var creada = await _service.CreateAsync(interaccion);
+        return StatusCode(StatusCodes.Status201Created, creada);
     }
 
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
-        try
-        {
-            return await _service.DeleteAsync(id)
-                ? NoContent()
-                : NotFound(new { mensaje = "Interacción no encontrada." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.DeleteAsync(id)
+            ? NoContent()
+            : NotFound(new { mensaje = "Interacción no encontrada." });
     }
 }

@@ -29,33 +29,15 @@ public class GastosProyectoController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<GastoProyecto>> Create(GastoProyecto gasto)
     {
-        try
-        {
-            var creado = await _service.CreateAsync(gasto);
-            return StatusCode(StatusCodes.Status201Created, creado);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        var creado = await _service.CreateAsync(gasto);
+        return StatusCode(StatusCodes.Status201Created, creado);
     }
 
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
-        try
-        {
-            return await _service.DeleteAsync(id)
-                ? NoContent()
-                : NotFound(new { mensaje = "Gasto no encontrado." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.DeleteAsync(id)
+            ? NoContent()
+            : NotFound(new { mensaje = "Gasto no encontrado." });
     }
 }

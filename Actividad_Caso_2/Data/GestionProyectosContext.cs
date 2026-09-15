@@ -40,7 +40,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.ClienteId).HasName("pk_cliente");
 
-            entity.ToTable("cliente", "gestion");
+            entity.ToTable("cliente", "public");
 
             entity.HasIndex(e => e.Ruc, "uq_cliente_ruc").IsUnique();
 
@@ -77,7 +77,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.EmpleadoId).HasName("pk_empleado");
 
-            entity.ToTable("empleado", "gestion");
+            entity.ToTable("empleado", "public");
 
             entity.HasIndex(e => e.CorreoCorporativo, "uq_empleado_correo").IsUnique();
 
@@ -114,7 +114,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.GastoProyectoId).HasName("pk_gasto_proyecto");
 
-            entity.ToTable("gasto_proyecto", "gestion");
+            entity.ToTable("gasto_proyecto", "public");
 
             entity.HasIndex(e => new { e.ProyectoId, e.FechaGasto }, "ix_gasto_proyecto_fecha");
 
@@ -157,7 +157,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.HitoId).HasName("pk_hito");
 
-            entity.ToTable("hito", "gestion");
+            entity.ToTable("hito", "public");
 
             entity.HasIndex(e => new { e.ProyectoId, e.Estado }, "ix_hito_proyecto_estado");
 
@@ -187,7 +187,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.InformeProgresoId).HasName("pk_informe_progreso");
 
-            entity.ToTable("informe_progreso", "gestion");
+            entity.ToTable("informe_progreso", "public");
 
             entity.HasIndex(e => new { e.ProyectoId, e.FechaInforme }, "ix_informe_proyecto_fecha").IsDescending(false, true);
 
@@ -220,7 +220,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.InteraccionClienteId).HasName("pk_interaccion_cliente");
 
-            entity.ToTable("interaccion_cliente", "gestion");
+            entity.ToTable("interaccion_cliente", "public");
 
             entity.HasIndex(e => new { e.ProyectoId, e.FechaHora }, "ix_interaccion_proyecto_fecha").IsDescending(false, true);
 
@@ -257,7 +257,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.ProyectoId).HasName("pk_proyecto");
 
-            entity.ToTable("proyecto", "gestion");
+            entity.ToTable("proyecto", "public");
 
             entity.HasIndex(e => e.ClienteId, "ix_proyecto_cliente_id");
 
@@ -308,7 +308,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => new { e.ProyectoId, e.EmpleadoId }).HasName("pk_proyecto_empleado");
 
-            entity.ToTable("proyecto_empleado", "gestion");
+            entity.ToTable("proyecto_empleado", "public");
 
             entity.HasIndex(e => e.EmpleadoId, "ix_proyecto_empleado_empleado_id");
 
@@ -338,7 +338,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity.HasKey(e => e.TareaId).HasName("pk_tarea");
 
-            entity.ToTable("tarea", "gestion");
+            entity.ToTable("tarea", "public");
 
             entity.HasIndex(e => new { e.EmpleadoAsignadoId, e.Estado }, "ix_tarea_empleado_estado");
 
@@ -384,7 +384,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity
                 .HasNoKey()
-                .ToView("vw_avance_proyecto", "gestion");
+                .ToView("vw_avance_proyecto", "public");
 
             entity.Property(e => e.Codigo)
                 .HasMaxLength(20)
@@ -402,7 +402,7 @@ public partial class GestionProyectosContext : DbContext
         {
             entity
                 .HasNoKey()
-                .ToView("vw_resumen_presupuesto_proyecto", "gestion");
+                .ToView("vw_resumen_presupuesto_proyecto", "public");
 
             entity.Property(e => e.Codigo)
                 .HasMaxLength(20)

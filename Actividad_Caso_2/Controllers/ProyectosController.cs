@@ -31,80 +31,37 @@ public class ProyectosController : ControllerBase
     [HttpGet("estado/{estado}")]
     public async Task<ActionResult<IEnumerable<Proyecto>>> GetByEstado(string estado)
     {
-        try
-        {
-            return Ok(await _service.GetByEstadoAsync(estado));
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
+        return Ok(await _service.GetByEstadoAsync(estado));
     }
 
     [HttpPost]
     public async Task<ActionResult<Proyecto>> Create(Proyecto proyecto)
     {
-        try
-        {
-            var creado = await _service.CreateAsync(proyecto);
-            return CreatedAtAction(nameof(GetById), new { id = creado.ProyectoId }, creado);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        var creado = await _service.CreateAsync(proyecto);
+        return CreatedAtAction(nameof(GetById), new { id = creado.ProyectoId }, creado);
     }
 
     [HttpPut("{id:long}")]
     public async Task<IActionResult> Update(long id, Proyecto proyecto)
     {
-        try
-        {
-            return await _service.UpdateAsync(id, proyecto)
-                ? NoContent()
-                : NotFound(new { mensaje = "Proyecto no encontrado." });
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { mensaje = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.UpdateAsync(id, proyecto)
+            ? NoContent()
+            : NotFound(new { mensaje = "Proyecto no encontrado." });
     }
 
     [HttpPatch("{id:long}/cerrar")]
     public async Task<IActionResult> Cerrar(long id)
     {
-        try
-        {
-            return await _service.CerrarAsync(id)
-                ? NoContent()
-                : NotFound(new { mensaje = "Proyecto no encontrado." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.CerrarAsync(id)
+            ? NoContent()
+            : NotFound(new { mensaje = "Proyecto no encontrado." });
     }
 
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
-        try
-        {
-            return await _service.DeleteAsync(id)
-                ? NoContent()
-                : NotFound(new { mensaje = "Proyecto no encontrado." });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { mensaje = ex.Message });
-        }
+        return await _service.DeleteAsync(id)
+            ? NoContent()
+            : NotFound(new { mensaje = "Proyecto no encontrado." });
     }
 }

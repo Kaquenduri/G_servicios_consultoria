@@ -1,5 +1,9 @@
 # Caso 2 - Gestión de Proyectos de Consultoría
-
+## Integrantes 
+- CHUNGA MALQUE, MARCO JESUS
+- ZINANYUCA CALCINA, GERALD BRAND
+- GUTIERREZ MAMANI, JHUNIOR BRAYAN
+- 
 API REST desarrollada para la gestión de proyectos de una empresa de servicios de consultoría. El proyecto utiliza PostgreSQL como base de datos y .NET 10 con C#, aplicando el enfoque **Database First** mediante **Entity Framework Core Scaffolding**.
 
 ## Tecnologías

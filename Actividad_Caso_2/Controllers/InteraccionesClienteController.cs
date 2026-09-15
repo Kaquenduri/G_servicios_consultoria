@@ -16,18 +16,18 @@ public class InteraccionesClienteController : ControllerBase
     }
 
     [HttpGet("proyecto/{proyectoId:long}")]
-    public async Task<ActionResult<IEnumerable<InteraccionCliente>>> GetByProyecto(long proyectoId)
+    public async Task<ActionResult<IEnumerable<InteraccionCliente>>> GetByProyecto([FromRoute] long proyectoId)
         => Ok(await _service.GetByProyectoAsync(proyectoId));
 
     [HttpPost]
-    public async Task<ActionResult<InteraccionCliente>> Create(InteraccionCliente interaccion)
+    public async Task<ActionResult<InteraccionCliente>> Create([FromBody] InteraccionCliente interaccion)
     {
         var creada = await _service.CreateAsync(interaccion);
         return StatusCode(StatusCodes.Status201Created, creada);
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

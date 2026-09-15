@@ -16,25 +16,25 @@ public class GastosProyectoController : ControllerBase
     }
 
     [HttpGet("proyecto/{proyectoId:long}")]
-    public async Task<ActionResult<IEnumerable<GastoProyecto>>> GetByProyecto(long proyectoId)
+    public async Task<ActionResult<IEnumerable<GastoProyecto>>> GetByProyecto([FromRoute] long proyectoId)
         => Ok(await _service.GetByProyectoAsync(proyectoId));
 
     [HttpGet("proyecto/{proyectoId:long}/total")]
-    public async Task<IActionResult> GetTotalProyecto(long proyectoId)
+    public async Task<IActionResult> GetTotalProyecto([FromRoute] long proyectoId)
     {
         var total = await _service.GetTotalProyectoAsync(proyectoId);
         return Ok(new { proyectoId, totalGastos = total });
     }
 
     [HttpPost]
-    public async Task<ActionResult<GastoProyecto>> Create(GastoProyecto gasto)
+    public async Task<ActionResult<GastoProyecto>> Create([FromBody] GastoProyecto gasto)
     {
         var creado = await _service.CreateAsync(gasto);
         return StatusCode(StatusCodes.Status201Created, creado);
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

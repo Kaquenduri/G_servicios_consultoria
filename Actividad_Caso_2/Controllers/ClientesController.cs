@@ -20,7 +20,7 @@ public class ClientesController : ControllerBase
         => Ok(await _service.GetAllAsync());
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Cliente>> GetById(long id)
+    public async Task<ActionResult<Cliente>> GetById([FromRoute] long id)
     {
         var cliente = await _service.GetByIdAsync(id);
         return cliente is null
@@ -29,14 +29,14 @@ public class ClientesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Cliente>> Create(Cliente cliente)
+    public async Task<ActionResult<Cliente>> Create([FromBody] Cliente cliente)
     {
         var creado = await _service.CreateAsync(cliente);
         return CreatedAtAction(nameof(GetById), new { id = creado.ClienteId }, creado);
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> Update(long id, Cliente cliente)
+    public async Task<IActionResult> Update([FromRoute] long id, [FromBody] Cliente cliente)
     {
         return await _service.UpdateAsync(id, cliente)
             ? NoContent()
@@ -44,7 +44,7 @@ public class ClientesController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

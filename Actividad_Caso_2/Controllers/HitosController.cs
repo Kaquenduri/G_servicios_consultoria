@@ -16,11 +16,11 @@ public class HitosController : ControllerBase
     }
 
     [HttpGet("proyecto/{proyectoId:long}")]
-    public async Task<ActionResult<IEnumerable<Hito>>> GetByProyecto(long proyectoId)
+    public async Task<ActionResult<IEnumerable<Hito>>> GetByProyecto([FromRoute] long proyectoId)
         => Ok(await _service.GetByProyectoAsync(proyectoId));
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Hito>> GetById(long id)
+    public async Task<ActionResult<Hito>> GetById([FromRoute] long id)
     {
         var hito = await _service.GetByIdAsync(id);
         return hito is null
@@ -29,14 +29,14 @@ public class HitosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Hito>> Create(Hito hito)
+    public async Task<ActionResult<Hito>> Create([FromBody] Hito hito)
     {
         var creado = await _service.CreateAsync(hito);
         return CreatedAtAction(nameof(GetById), new { id = creado.HitoId }, creado);
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> Update(long id, Hito hito)
+    public async Task<IActionResult> Update([FromRoute] long id, [FromBody] Hito hito)
     {
         return await _service.UpdateAsync(id, hito)
             ? NoContent()
@@ -44,7 +44,7 @@ public class HitosController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

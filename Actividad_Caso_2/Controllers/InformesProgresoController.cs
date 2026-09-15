@@ -16,11 +16,11 @@ public class InformesProgresoController : ControllerBase
     }
 
     [HttpGet("proyecto/{proyectoId:long}")]
-    public async Task<ActionResult<IEnumerable<InformeProgreso>>> GetByProyecto(long proyectoId)
+    public async Task<ActionResult<IEnumerable<InformeProgreso>>> GetByProyecto([FromRoute] long proyectoId)
         => Ok(await _service.GetByProyectoAsync(proyectoId));
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<InformeProgreso>> GetById(long id)
+    public async Task<ActionResult<InformeProgreso>> GetById([FromRoute] long id)
     {
         var informe = await _service.GetByIdAsync(id);
         return informe is null
@@ -29,14 +29,14 @@ public class InformesProgresoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<InformeProgreso>> Create(InformeProgreso informe)
+    public async Task<ActionResult<InformeProgreso>> Create([FromBody] InformeProgreso informe)
     {
         var creado = await _service.CreateAsync(informe);
         return CreatedAtAction(nameof(GetById), new { id = creado.InformeProgresoId }, creado);
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> Update(long id, InformeProgreso informe)
+    public async Task<IActionResult> Update([FromRoute] long id, [FromBody] InformeProgreso informe)
     {
         return await _service.UpdateAsync(id, informe)
             ? NoContent()
@@ -44,7 +44,7 @@ public class InformesProgresoController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

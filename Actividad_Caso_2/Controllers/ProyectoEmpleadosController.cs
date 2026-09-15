@@ -16,11 +16,11 @@ public class ProyectoEmpleadosController : ControllerBase
     }
 
     [HttpGet("proyecto/{proyectoId:long}")]
-    public async Task<ActionResult<IEnumerable<ProyectoEmpleado>>> GetByProyecto(long proyectoId)
+    public async Task<ActionResult<IEnumerable<ProyectoEmpleado>>> GetByProyecto([FromRoute] long proyectoId)
         => Ok(await _service.GetByProyectoAsync(proyectoId));
 
     [HttpPost]
-    public async Task<ActionResult<ProyectoEmpleado>> Asignar(ProyectoEmpleado asignacion)
+    public async Task<ActionResult<ProyectoEmpleado>> Asignar([FromBody] ProyectoEmpleado asignacion)
     {
         var creada = await _service.AsignarAsync(asignacion);
         return CreatedAtAction(
@@ -30,7 +30,7 @@ public class ProyectoEmpleadosController : ControllerBase
     }
 
     [HttpDelete("proyecto/{proyectoId:long}/empleado/{empleadoId:long}")]
-    public async Task<IActionResult> Desasignar(long proyectoId, long empleadoId)
+    public async Task<IActionResult> Desasignar([FromRoute] long proyectoId, [FromRoute] long empleadoId)
     {
         return await _service.DesasignarAsync(proyectoId, empleadoId)
             ? NoContent()

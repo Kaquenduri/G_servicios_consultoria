@@ -20,7 +20,7 @@ public class ProyectosController : ControllerBase
         => Ok(await _service.GetAllAsync());
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Proyecto>> GetById(long id)
+    public async Task<ActionResult<Proyecto>> GetById([FromRoute] long id)
     {
         var proyecto = await _service.GetByIdAsync(id);
         return proyecto is null
@@ -35,14 +35,14 @@ public class ProyectosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Proyecto>> Create(Proyecto proyecto)
+    public async Task<ActionResult<Proyecto>> Create([FromBody] Proyecto proyecto)
     {
         var creado = await _service.CreateAsync(proyecto);
         return CreatedAtAction(nameof(GetById), new { id = creado.ProyectoId }, creado);
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> Update(long id, Proyecto proyecto)
+    public async Task<IActionResult> Update([FromRoute] long id, [FromBody] Proyecto proyecto)
     {
         return await _service.UpdateAsync(id, proyecto)
             ? NoContent()
@@ -50,7 +50,7 @@ public class ProyectosController : ControllerBase
     }
 
     [HttpPatch("{id:long}/cerrar")]
-    public async Task<IActionResult> Cerrar(long id)
+    public async Task<IActionResult> Cerrar([FromRoute] long id)
     {
         return await _service.CerrarAsync(id)
             ? NoContent()
@@ -58,7 +58,7 @@ public class ProyectosController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

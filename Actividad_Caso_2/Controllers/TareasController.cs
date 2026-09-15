@@ -20,7 +20,7 @@ public class TareasController : ControllerBase
         => Ok(await _service.GetAllAsync());
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Tarea>> GetById(long id)
+    public async Task<ActionResult<Tarea>> GetById([FromRoute] long id)
     {
         var tarea = await _service.GetByIdAsync(id);
         return tarea is null
@@ -29,22 +29,22 @@ public class TareasController : ControllerBase
     }
 
     [HttpGet("proyecto/{proyectoId:long}")]
-    public async Task<ActionResult<IEnumerable<Tarea>>> GetByProyecto(long proyectoId)
+    public async Task<ActionResult<IEnumerable<Tarea>>> GetByProyecto([FromRoute] long proyectoId)
         => Ok(await _service.GetByProyectoAsync(proyectoId));
 
     [HttpGet("empleado/{empleadoId:long}")]
-    public async Task<ActionResult<IEnumerable<Tarea>>> GetByEmpleado(long empleadoId)
+    public async Task<ActionResult<IEnumerable<Tarea>>> GetByEmpleado([FromRoute] long empleadoId)
         => Ok(await _service.GetByEmpleadoAsync(empleadoId));
 
     [HttpPost]
-    public async Task<ActionResult<Tarea>> Create(Tarea tarea)
+    public async Task<ActionResult<Tarea>> Create([FromBody] Tarea tarea)
     {
         var creada = await _service.CreateAsync(tarea);
         return CreatedAtAction(nameof(GetById), new { id = creada.TareaId }, creada);
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> Update(long id, Tarea tarea)
+    public async Task<IActionResult> Update([FromRoute] long id, [FromBody] Tarea tarea)
     {
         return await _service.UpdateAsync(id, tarea)
             ? NoContent()
@@ -52,7 +52,7 @@ public class TareasController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

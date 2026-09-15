@@ -20,7 +20,7 @@ public class EmpleadosController : ControllerBase
         => Ok(await _service.GetAllAsync());
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Empleado>> GetById(long id)
+    public async Task<ActionResult<Empleado>> GetById([FromRoute] long id)
     {
         var empleado = await _service.GetByIdAsync(id);
         return empleado is null
@@ -29,14 +29,14 @@ public class EmpleadosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Empleado>> Create(Empleado empleado)
+    public async Task<ActionResult<Empleado>> Create([FromBody] Empleado empleado)
     {
         var creado = await _service.CreateAsync(empleado);
         return CreatedAtAction(nameof(GetById), new { id = creado.EmpleadoId }, creado);
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> Update(long id, Empleado empleado)
+    public async Task<IActionResult> Update([FromRoute] long id, Empleado empleado)
     {
         return await _service.UpdateAsync(id, empleado)
             ? NoContent()
@@ -44,7 +44,7 @@ public class EmpleadosController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         return await _service.DeleteAsync(id)
             ? NoContent()

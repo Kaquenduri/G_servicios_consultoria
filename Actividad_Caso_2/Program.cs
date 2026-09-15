@@ -57,6 +57,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseExceptionHandler("/Error");
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -65,7 +66,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseExceptionHandler();
+
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
